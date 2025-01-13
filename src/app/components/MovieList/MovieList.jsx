@@ -23,7 +23,7 @@ export default function MovieList() {
   const retryDelay = 1000;
   const debouncedInput = useDebounce(state.query, 1000);
   const cache = useRef({});
-  
+
   useEffect(() => {
     if (state.movies?.length === 0 || state.query === "") {
       fetchData();
@@ -156,7 +156,7 @@ export default function MovieList() {
         <p className={styles.no_movies}>No movies to show, try again</p>
       )}
 
-      {!state.loading && state.movies.length === 0 && state.query !== "" && (
+      {!state.loading && state.movies?.length === 0 && state.query !== "" && (
         <p className={styles.no_movies}>
           No movies match your search. Please try another search.
         </p>

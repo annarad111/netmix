@@ -23,11 +23,9 @@ export default function MovieList() {
   const retryDelay = 1000;
   const debouncedInput = useDebounce(state.query, 1000);
   const cache = useRef({});
-  console.log(state);
 
   useEffect(() => {
     if (state.movies?.length === 0 || state.query === '') {
-        console.log('intra');
       fetchData();
     }
   }, [state.skip, state.query, state.movies, state.total]);
@@ -75,7 +73,6 @@ export default function MovieList() {
         });
 
         if (data) {
-            console.log('intra aici ?')
           cache.current[queryKey] = data.items || [];
           setState((prevState) => ({
             ...prevState,

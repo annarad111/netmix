@@ -1,5 +1,4 @@
 export const getMovies = async (params) => {
-    // const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   try {
     const response = await fetch(
       `/api/getMovies?skip=${params.skip}&limit=${params.limit}&query=${params.query}`,

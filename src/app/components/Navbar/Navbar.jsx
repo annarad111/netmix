@@ -7,7 +7,7 @@ export default function Navbar() {
         <h1 className={styles.right_nav}>NETMIX</h1>
         <ul className={styles.left_nav}>
           <li>Home</li>
-          <li>Movie List</li>
+          <li>Movies</li>
           <li>News</li>
         </ul>
       </div>

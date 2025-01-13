@@ -14,6 +14,11 @@
     color: orange;
   }
 }
+@media (max-width: 768px) {
+    .left_nav {
+        font-size: 1em;
+    }
+}
 
 .right_nav {
   font-size: 2.4em;
@@ -21,9 +26,22 @@
   margin-top: 1%;
 }
 
+@media (max-width: 768px) {
+    .right_nav {
+        margin-left: 2%;
+        font-size: 1.8em;
+    }
+}
+
 .main {
   display: flex;
   justify-content: space-between;
+}
+@media (max-width: 768px) {
+    .main {
+        justify-content: start;
+        gap: 20px;
+    }
 }
 
 .wrapper {

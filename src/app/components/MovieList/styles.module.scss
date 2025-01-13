@@ -4,6 +4,7 @@
   padding: 1.5%;
   border-bottom: 2px solid orange;
   gap: 10%;
+  flex-wrap: wrap;
 }
 
 .movie_grid {
@@ -81,4 +82,30 @@
   justify-content: center;
   padding: 5%;
   font-size: 2em;
+}
+
+@media (max-width: 950px) {
+  .movie_grid {
+    grid-template-columns: auto auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .movie_grid {
+    grid-template-columns: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .search_form {
+    gap: 0;
+  }
+  .search_input {
+    padding: 5px 10px 5px 10px;
+    margin: 10% 10%;
+  }
+  .movie_grid {
+    grid-template-columns: auto;
+    grid-row-gap: 30px;
+  }
 }

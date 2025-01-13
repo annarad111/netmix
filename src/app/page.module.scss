@@ -25,13 +25,45 @@
 }
 
 .text_appear2 {
-    opacity: 0;
-    animation: fadeIn 1s ease-out forwards;
-    position: absolute;
-    font-size: 3em;
-    top: 67%;
-    left: 12%;
-    span{
-        color: orange;
-    }
+  opacity: 0;
+  animation: fadeIn 1s ease-out forwards;
+  position: absolute;
+  font-size: 3em;
+  top: 67%;
+  left: 12%;
+  span {
+    color: orange;
   }
+}
+
+@media (max-width: 840px) {
+  .text_appear {
+    font-size: 2.6em;
+    top: 30%;
+  }
+
+  .text_appear2 {
+    font-size: 2em;
+    top: 37%;
+  }
+
+  .background{
+    height: 500px;
+  }
+}
+
+@media (max-width: 520px) {
+  .text_appear {
+    font-size: 1.6em;
+    top: 20%;
+  }
+
+  .text_appear2 {
+    font-size: 1.1em;
+    top: 27%;
+  }
+
+  .background{
+    height: 300px;
+  }
+}

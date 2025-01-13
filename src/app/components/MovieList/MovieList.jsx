@@ -50,19 +50,21 @@ export default function MovieList() {
   };
 
   const fetchData = useCallback(async () => {
-    const queryKey = `${state.query || "all"}-${state.skip}-${state.total}`;
-
+    const queryKey = `${state.query || "all"}-${state.skip}`;
+  
     if (cache.current[queryKey]) {
+      const { movies, total } = cache.current[queryKey];
       setState((prevState) => ({
         ...prevState,
-        movies: cache.current[queryKey],
+        movies,
+        total,
         loading: false,
       }));
       return;
     }
-
+  
     setState((prevState) => ({ ...prevState, loading: true, error: null }));
-
+  
     let attempt = 0;
     while (attempt < maxRetries) {
       try {
@@ -71,9 +73,12 @@ export default function MovieList() {
           limit,
           query: state.query,
         });
-
+  
         if (data) {
-          cache.current[queryKey] = data.items || [];
+          cache.current[queryKey] = {
+            movies: data.items || [],
+            total: data.total || 0,
+          };
           setState((prevState) => ({
             ...prevState,
             movies: data.items || [],
@@ -89,7 +94,7 @@ export default function MovieList() {
       attempt++;
       await new Promise((resolve) => setTimeout(resolve, retryDelay));
     }
-
+  
     setState((prevState) => ({ ...prevState, loading: false }));
   }, [state.query, state.skip, limit, maxRetries, retryDelay]);
 
@@ -114,10 +119,11 @@ export default function MovieList() {
   const handleSearch = (e) => {
     e.preventDefault();
     const newQuery = e.target.value;
+  
     setState((prevState) => ({
       ...prevState,
       query: newQuery,
-      skip: newQuery === "" ? 0 : prevState.skip,
+      skip: 0,
     }));
   };
 

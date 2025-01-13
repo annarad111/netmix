@@ -13,7 +13,7 @@ export default function MovieList() {
     movies: [],
     total: 0,
     skip: 0,
-    query: "",
+    query: '',
     loading: false,
     error: null,
   });
@@ -23,12 +23,14 @@ export default function MovieList() {
   const retryDelay = 1000;
   const debouncedInput = useDebounce(state.query, 1000);
   const cache = useRef({});
+  console.log(state);
 
   useEffect(() => {
-    if (state.movies?.length === 0 || state.query === "") {
+    if (state.movies?.length === 0 || state.query === '') {
+        console.log('intra');
       fetchData();
     }
-  }, [state.skip, state.query, state.movies]);
+  }, [state.skip, state.query, state.movies, state.total]);
 
   useEffect(() => {
     if (debouncedInput) {
@@ -50,7 +52,7 @@ export default function MovieList() {
   };
 
   const fetchData = useCallback(async () => {
-    const queryKey = `${state.query || "all"}-${state.skip}`;
+    const queryKey = `${state.query || "all"}-${state.skip}-${state.total}`;
 
     if (cache.current[queryKey]) {
       setState((prevState) => ({
@@ -73,6 +75,7 @@ export default function MovieList() {
         });
 
         if (data) {
+            console.log('intra aici ?')
           cache.current[queryKey] = data.items || [];
           setState((prevState) => ({
             ...prevState,
@@ -113,10 +116,11 @@ export default function MovieList() {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    const newQuery = e.target.value;
     setState((prevState) => ({
       ...prevState,
-      query: e.target.value,
-      skip: 0,
+      query: newQuery,
+      skip: newQuery === "" ? 0 : prevState.skip,
     }));
   };
 

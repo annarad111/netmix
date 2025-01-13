@@ -1,0 +1,36 @@
+.background {
+  width: 100%;
+  object-fit: cover;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.text_appear {
+  opacity: 0;
+  animation: fadeIn 2s ease-out forwards;
+  position: absolute;
+  font-size: 4em;
+  top: 60%;
+  left: 12%;
+}
+
+.text_appear2 {
+    opacity: 0;
+    animation: fadeIn 1s ease-out forwards;
+    position: absolute;
+    font-size: 3em;
+    top: 67%;
+    left: 12%;
+    span{
+        color: orange;
+    }
+  }

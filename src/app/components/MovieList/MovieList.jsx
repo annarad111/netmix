@@ -23,12 +23,12 @@ export default function MovieList() {
   const retryDelay = 1000;
   const debouncedInput = useDebounce(state.query, 1000);
   const cache = useRef({});
-    console.log(state);
+  
   useEffect(() => {
-    if (state.movies.length === 0 || state.query === "") {
+    if (state.movies?.length === 0 || state.query === "") {
       fetchData();
     }
-  }, [state.skip, state.query]);
+  }, [state.skip, state.query, state.movies]);
 
   useEffect(() => {
     if (debouncedInput) {
@@ -36,12 +36,11 @@ export default function MovieList() {
       fetchData();
     }
     if (state.query !== debouncedInput) {
-        cache.current = {};
-      }
-  }, [state.skip,debouncedInput]);
+      cache.current = {};
+    }
+  }, [state.skip, debouncedInput]);
 
   const fetchMovies = async (data) => {
-    console.log(data);
     try {
       const response = await getMovies(data);
       return response;
@@ -52,7 +51,7 @@ export default function MovieList() {
 
   const fetchData = useCallback(async () => {
     const queryKey = `${state.query || "all"}-${state.skip}`;
-  
+
     if (cache.current[queryKey]) {
       setState((prevState) => ({
         ...prevState,
@@ -61,9 +60,9 @@ export default function MovieList() {
       }));
       return;
     }
-  
+
     setState((prevState) => ({ ...prevState, loading: true, error: null }));
-  
+
     let attempt = 0;
     while (attempt < maxRetries) {
       try {
@@ -72,7 +71,7 @@ export default function MovieList() {
           limit,
           query: state.query,
         });
-  
+
         if (data) {
           cache.current[queryKey] = data.items || [];
           setState((prevState) => ({
@@ -90,7 +89,7 @@ export default function MovieList() {
       attempt++;
       await new Promise((resolve) => setTimeout(resolve, retryDelay));
     }
-  
+
     setState((prevState) => ({ ...prevState, loading: false }));
   }, [state.query, state.skip, limit, maxRetries, retryDelay]);
 
@@ -145,20 +144,28 @@ export default function MovieList() {
 
       {state.loading ? (
         <LoadingSpinner />
+      ) : state.movies ? (
+        <div className={styles.movie_grid}>
+          {state.movies?.map((movie) => (
+            <div key={movie.id} className={styles.movie_card}>
+              <h3>{movie.title}</h3>
+            </div>
+          ))}
+        </div>
       ) : (
-        state.movies ? (
-            <div className={styles.movie_grid}>
-            {state.movies?.map((movie) => (
-              <div key={movie.id} className={styles.movie_card}>
-                <h3>{movie.title}</h3>
-              </div>
-            ))}
-          </div>
-        ) : (<p className={styles.no_movies}>No movies to show, try again</p>)
+        <p className={styles.no_movies}>No movies to show, try again</p>
       )}
-      {state.error && <p style={{ color: "red" }}>{state.error.message}</p>}
-      {state.total === 0 && state.query !== "" && (
-        <p className={styles.no_movies}>No movies match your search</p>
+
+      {!state.loading && state.movies.length === 0 && state.query !== "" && (
+        <p className={styles.no_movies}>
+          No movies match your search. Please try another search.
+        </p>
+      )}
+
+      {state.error && (
+        <p className={styles.no_movies}>
+          There was an error. Please try again later.
+        </p>
       )}
 
       <div className={styles.pagination}>

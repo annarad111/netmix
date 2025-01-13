@@ -4,7 +4,7 @@ import Image from "next/image";
 import styles from "./page.module.scss";
 import MovieList from "./components/MovieList/MovieList";
 import Navbar from "./components/Navbar/Navbar";
-import coverImage from "@/assets/images/from2.jpg";
+import coverImage from "@/assets/images/from2.webp";
 import Footer from "./components/Footer/Footer";
 
 export default function Home() {
@@ -13,9 +13,8 @@ export default function Home() {
       <Image
         src={coverImage}
         alt="Logo"
-        width={1200}
-        height={800}
         className={styles.background}
+        priority
       />
       <div>
         <p className={styles.text_appear}>Watch the best movies</p>
